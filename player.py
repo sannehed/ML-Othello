@@ -25,7 +25,7 @@ class Player:
         'debug': True
     }
     errors = []
-    player = False
+    id = False
     game = False
     socket = False
 
@@ -135,7 +135,7 @@ class Player:
     def make_move(self):
         moves = self.game.get_possible_moves()
         player_move = self.select_move(moves)
-        return self.game.aquire_space(player_move['x'], player_move['y'], self.player)
+        return self.game.aquire_space(player_move['x'], player_move['y'], self.id)
 
     def select_move(self, moves):
         # @TODO Add logic
