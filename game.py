@@ -36,7 +36,7 @@ class Game:
         return self
 
     def is_space_populated(self, x, y):
-        if self.is_space_on_board(x, y) != True:
+        if not self.is_space_on_board(x, y):
             return False
 
         return self.board[x][y] != 0
