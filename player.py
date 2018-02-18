@@ -1,6 +1,7 @@
 import time
 import socket
 import struct
+import random
 
 from game import Game
 
@@ -131,15 +132,17 @@ class Player:
     def update_game(self, data):
         self.receive_errors = 0
         self.debugger('update_game')
+        # @TODO Add logic
 
     def make_move(self):
         moves = self.game.get_possible_moves()
         player_move = self.select_move(moves)
         return self.game.aquire_space(player_move['x'], player_move['y'], self.id)
 
-    def select_move(self, moves):
-        # @TODO Add logic
-        return {'x': 0, 'y': 0}
+    def select_move(self, moves):  # @TODO Add correct logic
+        number_of_moves = len(moves)
+        the_move = random.randint(0, number_of_moves-1)
+        return the_move
 
 # Debug (Run the player)
 player = Player()

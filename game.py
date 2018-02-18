@@ -90,27 +90,32 @@ class Game:
         print (self.calculate_score())
 
     # Movement
-    def get_possible_moves(self, player=0):
+    def get_possible_moves(self, player=0):  # @TODO Add logic
         if player == 0:
             player = self.currentPlayer
 
         moves = []
+        board = self.board
         # check board positions
         # calculate possible moves
-        # return possibleMoves
-        print('getPlayerMoves')
-        # @TODO Add logic
+
         return moves
 
     # Rules
-    def switch_player(self, player):
-        self.currentPlayer = player
-        return self
+    def switch_player(self, next_player=0):
+        if next_player == 0:
+            player = self.currentPlayer
+            if player == 1:
+                next_player = 2
+            else:
+                next_player = 1
 
-    def can_player_make_move(self):
-        moves = self.get_possible_moves()
-        if len(moves) > 0:
-            print('canMakeMoves')
-            # @TODO Add logic
-        else:
-            return False
+        self.currentPlayer = next_player
+        return next_player
+
+    def can_player_make_move(self, player=0):
+        if player == 0:
+            player = self.currentPlayer
+
+        moves = self.get_possible_moves(player)
+        return len(moves) > 0
