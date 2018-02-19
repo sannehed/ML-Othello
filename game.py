@@ -1,7 +1,8 @@
 import os
-
+import time
 
 class Game:
+    debug = False
     # CurrentPlayer
     currentPlayer = False
 
@@ -13,8 +14,15 @@ class Game:
     ySpaces = 0
     board = []
 
+    # Debugger
+    def debugger (self, msg):
+        if self.debug:
+            print('DEBUGGER: [{}] -> {}'.format(*(time.strftime("%Y-%m-%d %H:%M:%S"), msg)))
+
     # Init the game
-    def __init__(self, x, y):
+    def __init__(self, x, y, debug = True):
+        self.debug = debug
+
         self.currentPlayer = 1
 
         if x % 2 == 0 and x % 2 == 0:
@@ -59,6 +67,9 @@ class Game:
             return False
 
     # Game status
+    def update(self):  # @TODO Add logic
+        self.debugger('Update game')
+
     def print_game(self):
         for i in range(self.xSpaces):
             print(self.board[i])
@@ -101,6 +112,9 @@ class Game:
 
         return moves
 
+    # Valid Moves checking
+    # @TODO Add logic functions here
+
     # Rules
     def switch_player(self, next_player=0):
         if next_player == 0:
@@ -119,3 +133,4 @@ class Game:
 
         moves = self.get_possible_moves(player)
         return len(moves) > 0
+

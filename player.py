@@ -25,6 +25,7 @@ class Player:
         'receive_errors': 0,
         'debug': True
     }
+    settings = {}
     errors = []
     id = False
     game = False
@@ -41,7 +42,8 @@ class Player:
         self.game = Game(self.spaces, self.spaces)
         self.socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
-        self.debugger('Player Initiated.')
+        self.debugger('Player Initiated with these settings:')
+        self.debugger(self.settings)
 
     def process_settings(self, settings):
         default_settings = self.default_settings
@@ -49,8 +51,10 @@ class Player:
         for (key, value) in default_settings.items():
             if hasattr(settings, key):
                 setattr(self, key, settings[key])
+                self.settings[key] = value
             else:
                 setattr(self, key, value)
+            self.settings[key] = value
             self.debugger('Setting "{}" set to "{}"'.format(*(key, getattr(self, key))))
 
     def log_error(self, note):
@@ -129,24 +133,25 @@ class Player:
             self.log_error(e)
 
     # Game
-    def update_game(self, data):
-        self.receive_errors = 0
-        self.debugger('update_game')
-        # @TODO Add logic
-
-    def make_move(self):
+    def get_possible_moves(self):
         moves = self.game.get_possible_moves()
-        player_move = self.select_move(moves)
-        return self.game.aquire_space(player_move['x'], player_move['y'], self.id)
+        return moves
 
     def select_move(self, moves):  # @TODO Add correct logic
         number_of_moves = len(moves)
         the_move = random.randint(0, number_of_moves-1)
         return the_move
 
-# Debug (Run the player)
-player = Player()
-player.connect_to_lobby()
+    def make_move(self):
+        moves = self.get_possible_moves()
+        player_move = self.select_move(moves)
+        return self.game.aquire_space(player_move['x'], player_move['y'], self.id)
+
+    def update_game(self, data):
+        self.receive_errors = 0
+        self.debugger('update_game')
+        self.game.update(data)  # @TODO Add logic
+
 
 
 # ---===( Timeline )===--- #
